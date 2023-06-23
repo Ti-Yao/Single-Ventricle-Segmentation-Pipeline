@@ -8,32 +8,32 @@ This repository contains the code for the paper:
 ## Code
 The pipeline is designed to work with a specific folder structure, as described below:
 
-data_path
-    patient1
-        scan1
-            dicoms.dcm
-        scan2
-            dicoms.dcm
-        ...
-    patient2
-        scan1
-            dicoms.dcm
-        scan2
-            dicoms.dcm
-        ...
-    ...
+* data_path
+    * patient1
+        * scan1
+            * dicoms.dcm
+        * scan2
+            * dicoms.dcm
+        * ...
+    * patient2
+        * scan1
+            * dicoms.dcm
+        * scan2
+            * dicoms.dcm
+        * ...
+    * ...
     
-results_path
-    segs  (segmented gifs)
-        patient1.gif
-        patient2.gif
-    volume_curves
-        patient1.jpg
-        patient2.jpg
-    sys_dia_plot (segmented images of systole and diastole)
-        patient1.png
-        patient2.png
-    ...
+* results_path
+    * segs  (segmented gifs)
+        * patient1.gif
+        * patient2.gif
+    * volume_curves
+        * patient1.jpg
+        * patient2.jpg
+    * sys_dia_plot (segmented images of systole and diastole)
+        * patient1.png
+        * patient2.png
+    * ...
 
 
 The code provides a convenient way to process patient data and generate various results. To use the code, follow the steps below:
@@ -41,9 +41,7 @@ The code provides a convenient way to process patient data and generate various 
 Make sure you have the necessary machine learning models stored in the "models" folder. By default, the pipeline expects the models to be located in the correct relative path from the pipeline.py file. If you choose to move the models to a different location, you can modify the model paths in pipeline.py at the top of the file.
 
 Instantiate the pipeline object by adding the following line of code to your script:
-```
-p = Pipeline(patient, data_path='data', results_path='results')
-```
+`p = Pipeline(patient, data_path='data', results_path='results')`
 
 The patient argument should be the name of the patient for whom you want to process the scans. The data_path and results_path arguments specify the paths to the input data and the location where the results should be stored, respectively.
 
