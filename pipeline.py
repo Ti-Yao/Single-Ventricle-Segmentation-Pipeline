@@ -953,6 +953,7 @@ class Pipeline:
         edv = round(volume[dia_idx], 5)
         
         mass = np.sum(sum_slices[...,-2][...,np.newaxis], axis = -1) * self.voxel_size
+	mass = mass * 1.05 # multtiply by the myocardial mass density
         mass = round(mass[dia_idx], 5)
         
         sv = edv - esv
