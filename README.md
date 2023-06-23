@@ -7,7 +7,7 @@ This repository contains the code for the paper:
 ## Models
 To download pretrained models, please download them from this [Google Drive link](https://www.example.com](https://drive.google.com/drive/folders/1df2Cf-bUgBG3KeMkaaUTp-ZE8sS-tGfK?usp=drive_link)https://drive.google.com/drive/folders/1df2Cf-bUgBG3KeMkaaUTp-ZE8sS-tGfK?usp=drive_link)
 
-We have also added our implementation of the UNet3+ model.[1]
+We have also added our implementation of the UNet3+ model in another [GitHub repository](https://github.com/Ti-Yao/unet3plus) [1]
 
 
 ## Folder Structure
