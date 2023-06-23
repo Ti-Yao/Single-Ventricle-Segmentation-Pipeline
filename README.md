@@ -86,5 +86,7 @@ So if you wanted to access the calculated volume of the patient exam you would u
 
 
 ### Reference
+
 [1] Yao T, Clair NS, Miller GF, Dorfman AL, Fogel MA, Ghelani S, Krishnamurthy R, Lam CZ, Robinson JD, Schidlow D, Slesnick TC. Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry. arXiv preprint arXiv:2303.11676. 2023 Mar 21.
+
 [2]  Huang H, Lin L, Tong R, Hu H, Zhang Q, Iwamoto Y, et al. UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation [Internet]. arXiv; 2020 [cited 2023 Feb 14]. Available from: http://arxiv.org/abs/2004.08790
