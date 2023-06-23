@@ -2,12 +2,12 @@
 
 This repository contains the code for the paper:
 
-**Tina Yao, Nicole St. Clair, Gabriel F. Miller, Adam L. Dorfman, Mark A. Fogel, Sunil Ghelani, Rajesh Krishnamurthy,Christopher Z. Lam, Michael Quail, Joshua D. Robinson, David Schidlow, Timothy C. Slesnick, Justin Weigand, Jennifer A. Steeden, Rahul H. Rathod, Vivek Muthurangu, MD(res)** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry [[preprint]](https://arxiv.org/abs/2303.11676)
+**Tina Yao, Nicole St. Clair et al.** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry [[preprint]](https://arxiv.org/abs/2303.11676) [1]
 
 ## Models
 To download pretrained models, please download them from this [Google Drive link](https://www.example.com](https://drive.google.com/drive/folders/1df2Cf-bUgBG3KeMkaaUTp-ZE8sS-tGfK?usp=drive_link)https://drive.google.com/drive/folders/1df2Cf-bUgBG3KeMkaaUTp-ZE8sS-tGfK?usp=drive_link)
 
-We have also added our implementation of the UNet3+ model in another [GitHub repository](https://github.com/Ti-Yao/unet3plus) [1]
+We have also added our implementation of the UNet3+ model in another [GitHub repository](https://github.com/Ti-Yao/unet3plus) [2]
 
 
 ## Folder Structure
@@ -86,4 +86,5 @@ So if you wanted to access the calculated volume of the patient exam you would u
 
 
 ### Reference
-[1]  Huang H, Lin L, Tong R, Hu H, Zhang Q, Iwamoto Y, et al. UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation [Internet]. arXiv; 2020 [cited 2023 Feb 14]. Available from: http://arxiv.org/abs/2004.08790
+[1] Yao T, Clair NS, Miller GF, Dorfman AL, Fogel MA, Ghelani S, Krishnamurthy R, Lam CZ, Robinson JD, Schidlow D, Slesnick TC. Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry. arXiv preprint arXiv:2303.11676. 2023 Mar 21.
+[2]  Huang H, Lin L, Tong R, Hu H, Zhang Q, Iwamoto Y, et al. UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation [Internet]. arXiv; 2020 [cited 2023 Feb 14]. Available from: http://arxiv.org/abs/2004.08790
