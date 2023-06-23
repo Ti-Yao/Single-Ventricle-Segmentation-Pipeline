@@ -1,11 +1,13 @@
-# Single Ventricle Segmentation Pipeline
+# Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry
 
 This repository contains the code for the paper:
 
-**Tina Yao, Nicole St. et al.** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry.[[preprint]](https://arxiv.org/abs/2303.11676)
+**Tina Yao, Nicole St. et al.** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry [[preprint]](https://arxiv.org/abs/2303.11676)
 
-### Models
+## Models
 To download pretrained models, please download them from this [Google Drive link](https://www.example.com](https://drive.google.com/drive/folders/1df2Cf-bUgBG3KeMkaaUTp-ZE8sS-tGfK?usp=drive_link)https://drive.google.com/drive/folders/1df2Cf-bUgBG3KeMkaaUTp-ZE8sS-tGfK?usp=drive_link)
+
+We have also added our implementation of the UNet3+ model.[1]
 
 
 ## Folder Structure
@@ -49,6 +51,7 @@ This line of code will create the pipeline object, p.
 
 Once the pipeline object is instantiated, it will automatically process the scans for the specified patient and generate the desired results. The segmented GIFs will be stored in the segs folder, the volume curves will be saved as JPEG images in the volume_curves folder, and the segmented images of systole and diastole will be stored as PNG files in the sys_dia_plot folder.
 
+Example implementation is also provided in example.py
 
 ## Pipeline Attributes
 The pipeline will have the following attributes.
@@ -80,3 +83,7 @@ The pipeline will have the following attributes.
 
 
 So if you wanted to access the calculated volume of the patient exam you would use `p.volume`
+
+
+### Reference
+[1]  Huang H, Lin L, Tong R, Hu H, Zhang Q, Iwamoto Y, et al. UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation [Internet]. arXiv; 2020 [cited 2023 Feb 14]. Available from: http://arxiv.org/abs/2004.08790
