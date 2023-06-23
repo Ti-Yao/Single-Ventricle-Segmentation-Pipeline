@@ -7,7 +7,7 @@ This repository contains the code for the paper:
 
 ## Code
 The pipeline is designed to work with a specific folder structure, as described below:
-
+```
 * data_path
     * patient1
         * scan1
@@ -34,7 +34,7 @@ The pipeline is designed to work with a specific folder structure, as described 
         * patient1.png
         * patient2.png
     * ...
-
+```
 
 The code provides a convenient way to process patient data and generate various results. To use the code, follow the steps below:
 
