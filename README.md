@@ -2,7 +2,7 @@
 
 This repository contains the code for the paper:
 
-**Tina Yao, Nicole St. et al.** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry [[preprint]](https://arxiv.org/abs/2303.11676)
+**Tina Yao, Nicole St. Clair, Gabriel F. Miller, Adam L. Dorfman, Mark A. Fogel, Sunil Ghelani, Rajesh Krishnamurthy,Christopher Z. Lam, Michael Quail, Joshua D. Robinson, David Schidlow, Timothy C. Slesnick, Justin Weigand, Jennifer A. Steeden, Rahul H. Rathod, Vivek Muthurangu, MD(res)** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry [[preprint]](https://arxiv.org/abs/2303.11676)
 
 ## Models
 To download pretrained models, please download them from this [Google Drive link](https://www.example.com](https://drive.google.com/drive/folders/1df2Cf-bUgBG3KeMkaaUTp-ZE8sS-tGfK?usp=drive_link)https://drive.google.com/drive/folders/1df2Cf-bUgBG3KeMkaaUTp-ZE8sS-tGfK?usp=drive_link)
