@@ -10,7 +10,9 @@ This repository contains the code for the paper:
 
 ## UNet3+
 We have added our implementation of the UNet3+ model in another [GitHub repository](https://github.com/Ti-Yao/unet3plus) [2]
-
+<p align="center">
+  <img src="https://github.com/Ti-Yao/Single-Ventricle-Segmentation-Pipeline/blob/main/images/UNet3+.png" width="400"/>
+</p>
 
 ## Folder Structure
 The pipeline is designed to work with a specific folder structure, as described below:
@@ -88,8 +90,11 @@ So if you wanted to access the calculated volume of the patient exam you would u
 
 ## Results
 
-![Segmentation results](images/segmentation_example.gif)
 
+
+<p align="middle">
+  <img style="padding: 10"  src="https://github.com/Ti-Yao/Single-Ventricle-Segmentation-Pipeline/blob/main/images/segmentation_example.gif" width="40%"/>
+</p>
 ### Reference
 
 [1] Yao T, Clair NS, Miller GF, Dorfman AL, Fogel MA, Ghelani S, Krishnamurthy R, Lam CZ, Robinson JD, Schidlow D, Slesnick TC. Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry. arXiv preprint arXiv:2303.11676. 2023 Mar 21.
