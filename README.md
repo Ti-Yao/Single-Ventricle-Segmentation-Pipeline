@@ -5,7 +5,7 @@ This repository contains the code for the paper:
 **Tina Yao, Nicole St. Clair et al.** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry [[preprint]](https://arxiv.org/abs/2303.11676) [1]
 
 
-<img src="https://github.com/Ti-Yao/Single-Ventricle-Segmentation-Pipeline/blob/main/images/pipeline.png" />
+<img src="https://github.com/Ti-Yao/Single-Ventricle-Segmentation-Pipeline/blob/main/images/pipeline1.png" />
 
 
 ## UNet3+
