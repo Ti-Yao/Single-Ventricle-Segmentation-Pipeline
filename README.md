@@ -82,6 +82,9 @@ The pipeline will have the following attributes.
 
 So if you wanted to access the calculated volume of the patient exam you would use `p.volume`
 
+## Results
+![Pipeline Figure](images/Figure1.png)
+![Segmentation results](images/Figure1.png)
 
 ### Reference
 
