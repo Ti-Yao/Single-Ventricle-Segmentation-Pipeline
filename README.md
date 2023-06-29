@@ -3,6 +3,7 @@
 This repository contains the code for the paper:
 
 **Tina Yao, Nicole St. Clair et al.** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry [[preprint]](https://arxiv.org/abs/2303.11676) [1]
+![Pipeline Figure](images/Figure1.png =250x)
 
 ## UNet3+
 We have added our implementation of the UNet3+ model in another [GitHub repository](https://github.com/Ti-Yao/unet3plus) [2]
@@ -83,8 +84,8 @@ The pipeline will have the following attributes.
 So if you wanted to access the calculated volume of the patient exam you would use `p.volume`
 
 ## Results
-![Pipeline Figure](images/Figure1.png)
-![Segmentation results](images/Figure1.png)
+
+![Segmentation results](images/segmentation_example.gif)
 
 ### Reference
 
