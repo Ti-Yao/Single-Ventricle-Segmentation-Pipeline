@@ -7,6 +7,8 @@ This repository contains the code for the paper:
 
 <img src="https://github.com/Ti-Yao/Single-Ventricle-Segmentation-Pipeline/blob/main/images/pipeline1.png" />
 
+## Installation
+This repository uses Python 3.9. Use pip install -r requirements.txt to install the necessary packages.
 
 ## UNet3+
 We have added our implementation of the UNet3+ model in another [GitHub repository](https://github.com/Ti-Yao/unet3plus) [2]
