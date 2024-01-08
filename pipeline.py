@@ -37,11 +37,11 @@ segger_image_size = 128
 sax_id_image_size = 128
 
 segger_num = 212
-blobber_num = 80
+cropper_num = 80
 sax_id_num = 67
 
 sax_id_path = f'models/SAX-{sax_id_num}.h5'
-blobber_path = f'models/BLOB-{blobber_num}.h5'
+cropper_path = f'models/crop-{cropper_num}.h5'
 segger_path = f'models/SEG-{segger_num}.h5'
 
 
@@ -370,7 +370,7 @@ class Pipeline:
         self.voxel_size = self.get_voxel_size() # calculate size of the voxel
         
         self.image = self.get_sax_image()# create the sax image
-        self.cropped_image, self.crop_box = self.blob_image(self.image)  # crop heart out of image
+        self.cropped_image, self.crop_box = self.crop_image(self.image)  # crop heart out of image
         self.segged_image, self.masks = self.seg_image(self.cropped_image) # segment the heart
         self.volume, self.mass, self.esv, self.edv, self.sv, self.ef = self.get_metrics(self.masks)
         self.make_video(self.segged_image,'segs') # create gif of segmented image
@@ -812,8 +812,8 @@ class Pipeline:
             plt.savefig(f"{self.results_path}/sys_dia_plot/{self.patient}_{'sys' if i == 1 else 'dia'}.png", bbox_inches='tight')
             plt.close()
         
-    def blob_image(self,image_4D,blobber_num = blobber_num):
-        blobber = tf.keras.models.load_model(blobber_path, compile = False) 
+    def crop_image(self,image_4D,cropper_num = cropper_num):
+        cropper = tf.keras.models.load_model(cropper_path, compile = False) 
         
         position = image_4D.shape[2]
         mid_slice_idx = int(position/2)
@@ -832,34 +832,34 @@ class Pipeline:
             im = normalize(im[...,0])
             images_to_crop.append(im[...,np.newaxis])
         images_to_crop = np.stack(images_to_crop,0)
-        blobs = blobber.predict(images_to_crop)
-        if type(blobs) == list:
-            blobs = blobs[-1]
-        blobs = get_one_hot(np.argmax(blobs,axis = -1), 2) # binarise each mask
-        blobs = blobs[...,-1] # get the mask not bkg
-        y_sum = np.sum(blobs, 0) # flatten masks together
+        crops = cropper.predict(images_to_crop)
+        if type(crops) == list:
+            crops = crops[-1]
+        crops = get_one_hot(np.argmax(crops,axis = -1), 2) # binarise each mask
+        crops = crops[...,-1] # get the mask not bkg
+        y_sum = np.sum(crops, 0) # flatten masks together
         y_sum[y_sum < y_sum.max()] = 0
         y_sum[y_sum == y_sum.max()] = 1
         sum_polygon = mask_to_polygons_layer(keep_largest_component(y_sum))
-        keep_blobs = np.zeros_like(y_sum)
-        for i in range(len(blobs)):
-            pred_polygons = mask_to_polygons_layer(blobs[i])
+        keep_crops = np.zeros_like(y_sum)
+        for i in range(len(crops)):
+            pred_polygons = mask_to_polygons_layer(crops[i])
             keep_pred_polygons = []
             for pred_poly in list(pred_polygons.geoms):
                 if pred_poly.intersects(sum_polygon):
                     keep_pred_polygons.append(pred_poly)
             if len(keep_pred_polygons) > 0:
-                keep_blobs += features.rasterize(keep_pred_polygons, out_shape=y_sum.shape)
-        keep_blobs[keep_blobs >= 1] = 1
-        keep_blobs[keep_blobs < 1] = 0
-        keep_blobs = keep_largest_component(keep_blobs)
+                keep_crops += features.rasterize(keep_pred_polygons, out_shape=y_sum.shape)
+        keep_crops[keep_crops >= 1] = 1
+        keep_crops[keep_crops < 1] = 0
+        keep_crops = keep_largest_component(keep_crops)
         try:
             plt.imshow(image_4D[...,mid_slice_idx,0], cmap = 'gray')
-            plt.imshow(keep_blobs, alpha = (keep_blobs/np.max(keep_blobs)) * 0.6)
-            Path(f"{self.results_path}/blobs").mkdir(parents=True, exist_ok=True)
-            plt.savefig(f"{self.results_path}/blobs/{self.patient}.jpg")
+            plt.imshow(keep_crops, alpha = (keep_crops/np.max(keep_crops)) * 0.6)
+            Path(f"{self.results_path}/crops").mkdir(parents=True, exist_ok=True)
+            plt.savefig(f"{self.results_path}/crops/{self.patient}.jpg")
             plt.close()
-            x_min, y_min, x_max, y_max = find_crop_box(keep_blobs, crop_factor= 1.5)
+            x_min, y_min, x_max, y_max = find_crop_box(keep_crops, crop_factor= 1.5)
             if np.argmin(scale_shape) == 1 and x_min < (cropper_image_size - np.min(scale_shape) )/2: # means x is overflowing
                 x_min, x_max = round(x_min+ ((cropper_image_size - np.min(scale_shape) )/2 - x_min)), round(x_max + ((cropper_image_size - np.min(scale_shape) )/2 - x_min))
             elif np.argmin(scale_shape) == 0 and y_min < (cropper_image_size - np.min(scale_shape) )/2:
@@ -876,7 +876,7 @@ class Pipeline:
             crop_box = (x_min, y_min, x_max, y_max)
             self.status = 'crop success'
             return cropped_image,crop_box
-        except: # if the blobber fails to find the heart return the image uncropped
+        except: # if the cropper fails to find the heart return the image uncropped
             print('Could not find heart, check image') 
             self.status = 'crop fail'
             cropped_image = image_4D.copy()
