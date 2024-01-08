@@ -8,8 +8,9 @@ This repository contains the code for the paper:
 <img src="https://github.com/Ti-Yao/Single-Ventricle-Segmentation-Pipeline/blob/main/images/pipeline1.png" />
 
 ## Models
-Please note that the code in this repository implements the pipeline but requires your own trained models: for SAX classifier, image cropping UNet and segmentation UNet. The DL models used in the paper for these three stages are owned by the FORCE registry and are not publicly available. Information on how to train your own models is available in the paper.
+Please note that the models utilized in our paper are not currently accessible publicly. To use this repository, it's necessary to train your own DL models, adhering to the methods detailed in our paper.
 
+For the integration of your trained h5 models into the pipeline, ensure to modify the 'sax_id_path,' 'cropper_path,' and 'segger_path' variables within the code to reflect the paths of your own trained SAX identification, cropping, and segmentation models.
 
 ## Installation
 This repository uses Python 3.9. We recommend using a conda environment. Use pip install -r requirements.txt to install the necessary packages. We found you need to uninstall and reinstall protobuf for the code to work:
@@ -19,7 +20,6 @@ conda create -n pipeline python=3.9
 pip install -r requirements.txt
 pip uninstall -y protobuf
 pip install --no-binary protobuf protobuf==3.20.1
-
 ```
 
 ## UNet3+
