@@ -36,13 +36,9 @@ cropper_image_size = 256 # for cropper
 segger_image_size = 128
 sax_id_image_size = 128
 
-segger_num = 212
-cropper_num = 80
-sax_id_num = 67
-
-sax_id_path = f'models/SAX-{sax_id_num}.h5'
-cropper_path = f'models/crop-{cropper_num}.h5'
-segger_path = f'models/SEG-{segger_num}.h5'
+sax_id_path = '/path/to/your/SAXid/model.h5'
+cropper_path = '/path/to/your/cropper/model.h5'
+segger_path = '/path/to/your/segger/model.h5'
 
 
 def resize_crop_box(crop_box, crop_factor):
