@@ -44,6 +44,7 @@ The pipeline is designed to work with a specific folder structure, as described 
         ‣ patient2.png
     ○ ...
 ```
+Please note that you will have to use your own data for this project.
 
 ## Pipeline
 Once you have the correct folder structure, to use the pipeline, you only need to use the following code:
