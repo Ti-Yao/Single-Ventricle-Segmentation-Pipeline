@@ -25,7 +25,7 @@ pip install --no-binary protobuf protobuf==3.20.1
 ## UNet3+
 We have added our implementation of the UNet3+ model in another [GitHub repository](https://github.com/Ti-Yao/unet3plus) [2]
 <p align="center">
-  <img src="https://github.com/Ti-Yao/Single-Ventricle-Segmentation-Pipeline/blob/main/images/UNet3+.png" width="400"/>
+  <img src="https://github.com/Ti-Yao/Single-Ventricle-Segmentation-Pipeline/blob/main/images/unet3+.png" width="400"/>
 </p>
 
 ## Folder Structure
