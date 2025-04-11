@@ -2,7 +2,7 @@
 
 This repository contains the code for the paper:
 
-**Tina Yao, Nicole St. Clair et al.** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry [[preprint]](https://arxiv.org/abs/2303.11676) [1]
+**Tina Yao, Nicole St. Clair et al.** Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry [[paper]](https://pubs.rsna.org/doi/full/10.1148/ryai.230132) [1]
 
 
 <img src="https://github.com/Ti-Yao/Single-Ventricle-Segmentation-Pipeline/blob/main/images/pipeline1.png" />
@@ -112,6 +112,6 @@ So if you wanted to access the calculated volume of the patient exam you would u
 
 ### Reference
 
-[1] Yao T, Clair NS, Miller GF, Dorfman AL, Fogel MA, Ghelani S, Krishnamurthy R, Lam CZ, Robinson JD, Schidlow D, Slesnick TC. Deep Learning Pipeline for Preprocessing and Segmenting Cardiac Magnetic Resonance of Single Ventricle Patients from an Image Registry. arXiv preprint arXiv:2303.11676. 2023 Mar 21.
+[1] Yao, T. et al. (2024) ‘A deep learning pipeline for assessing ventricular volumes from a cardiac MRI registry of patients with single ventricle physiology’, Radiology: Artificial Intelligence, 6(1). doi:10.1148/ryai.230132. 
 
 [2]  Huang H, Lin L, Tong R, Hu H, Zhang Q, Iwamoto Y, et al. UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation [Internet]. arXiv; 2020 [cited 2023 Feb 14]. Available from: http://arxiv.org/abs/2004.08790
