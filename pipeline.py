@@ -27,7 +27,7 @@ from shapely.geometry import Polygon, box, Point, shape, MultiPolygon
 from rasterio import features, Affine
 from skimage.measure import label 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = ""
+# os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 min_timesteps = 10
 min_slices = 6
@@ -36,14 +36,15 @@ cropper_image_size = 256 # for cropper
 segger_image_size = 128
 sax_id_image_size = 128
 
-segger_num = 212
+# segger_num = 212
 blobber_num = 80
 sax_id_num = 67
-model_path = './models'
+model_path = '/workspaces/Force-ML/models'
 
 sax_id_path = f'{model_path}/SAX-{sax_id_num}.h5'
 blobber_path = f'{model_path}/BLOB-{blobber_num}.h5'
-segger_path = f'{model_path}/SEG-{segger_num}.h5'
+# segger_path = f'{model_path}/SEG-{segger_num}.h5'
+segger_path = f'{model_path}/SEGGER-30.h5'
 
 
 def resize_crop_box(crop_box, crop_factor):
@@ -377,15 +378,9 @@ class Pipeline:
         
         self.get_dicoms() # get all the dicom files for each patient
         self.dicom_info = self.get_dicom_info() # read dicom headers for each file into a dataframe called dicom_info
-        self.dicom_info.to_csv('dicom_info.csv')
 
         self.stack_df_list = self.get_stack_df_list(self.dicom_info) # find the cine stacks
-
-        for i in range(len(self.stack_df_list)):
-            self.stack_df_list[i].sort_values(['slicelocation','triggertime']).to_csv(f'stack_df_{i}.csv')
-
         self.sax_df = self.get_sax_df(self.stack_df_list) # using classifier find which cine stack is sax
-        self.sax_df.to_csv('sax_df.csv')
 
         self.single_dicom = dicom.dcmread(self.sax_df.reset_index().iloc[0].dicom) # get patient information from single dicom
         self.voxel_size = self.get_voxel_size() # calculate size of the voxel
@@ -393,10 +388,10 @@ class Pipeline:
         self.image = self.get_sax_image()# create the sax image
         self.cropped_image, self.crop_box = self.blob_image(self.image)  # crop heart out of image
 
-        # self.segged_image, self.masks = self.seg_image(self.cropped_image) # segment the heart
-        # self.volume, self.mass, self.esv, self.edv, self.sv, self.ef = self.get_metrics(self.masks)
-        # self.make_video(self.segged_image,'segs') # create gif of segmented image
-        # self.save_sys_dia_image(self.segged_image) # save the systolic and diastolic segmented image
+        self.segged_image, self.masks = self.seg_image(self.cropped_image) # segment the heart
+        self.volume, self.mass, self.esv, self.edv, self.sv, self.ef = self.get_metrics(self.masks)
+        self.make_video(self.segged_image,'segs') # create gif of segmented image
+        self.save_sys_dia_image(self.segged_image) # save the systolic and diastolic segmented image
         
 
     def get_dicoms(self):
@@ -442,10 +437,8 @@ class Pipeline:
             dicom_info['image_shape'] = dicom_info.image.apply(lambda x: x.shape) 
             dicom_info = dicom_info.loc[dicom_info['phase'] == 0] # remove flow images
             dicom_info = dicom_info[dicom_info ['triggertime'].notna()] #remove scans with no triggertimes
-            if dicom_info.slicelocation.isnull().any():
-                main_axis = np.argmax(np.cross(dicom_info['orientation'].iloc[0][:3], dicom_info['orientation'].iloc[0][3:]))
-                dicom_info['slicelocation'] = dicom_info['position'].apply(lambda x: x[main_axis])
-            return dicom_info
+                            
+        return dicom_info
 
 
     def read_dicom_header(self,series):
@@ -481,10 +474,15 @@ class Pipeline:
                 dicom_info[dicom_path] = {}
                 dicom_info[dicom_path]['image'] = dcm.pixel_array
                 dicom_info[dicom_path]['uid'] = dcm.SOPInstanceUID
+                dicom_info[dicom_path]['seriesdescription'] = dcm.SeriesDescription
 
-                # have to use try and excepts, if the dicom doesn't the information stored use nan
+                site = str(dcm.PatientName)[:3]
+                manufacturer = dcm.Manufacturer.lower()
+                
                 try:
-                    dicom_info[dicom_path]['slicelocation'] = round(dcm.SliceLocation,3)
+                    # main_axis = np.argmax(np.cross(dicom_info['orientation'].iloc[0][:3], dicom_info['orientation'].iloc[0][3:]))
+                    # dicom_info['slicelocation'] = dicom_info['position'].apply(lambda x: x[main_axis])
+                    dicom_info[dicom_path]['slicelocation'] = [round(val,3) for val in dcm.ImagePositionPatient][2]
                 except:
                     dicom_info[dicom_path]['slicelocation'] = np.nan
             
@@ -500,7 +498,8 @@ class Pipeline:
                 except:
                     dicom_info[dicom_path]['seriesnumber'] = np.nan
                 try:
-                    dicom_info[dicom_path]['triggertime'] = round(dcm.TriggerTime)#int(np.ceil(dcm.TriggerTime / 5) * 5)
+                    # dicom_info[dicom_path]['triggertime'] = round(dcm.TriggerTime)
+                    dicom_info[dicom_path]['triggertime'] = float(dcm.InstanceNumber) if site == 'GOS' else round(dcm.TriggerTime)
                 except:
                     dicom_info[dicom_path]['triggertime'] = np.nan
                 try:
@@ -567,7 +566,6 @@ class Pipeline:
                                         separated = True
                             if not separated:
                                 if self.is_sax_valid(stack_unique_image_shape_df) and len(stack_unique_image_shape_df) > min_timesteps * min_slices:
-
                                     stack_df_list.append(stack_unique_image_shape_df)
         if len(stack_df_list) == 0:
             self.status = 'no_stacks'
@@ -593,10 +591,6 @@ class Pipeline:
             sax_mean_probs = []
             for stack_idx in range(len(stack_df_list)): # going through each stack
                 stack_df = stack_df_list[stack_idx]
-
-
-                print(len(stack_df), 'images in stack', stack_df['seriesnumber'].values[0])
-
                 stack_df = stack_df.sort_values(['slicelocation','triggertime'])
 
                 if len(stack_df) > 0 and self.is_sax_valid(stack_df): # make sure the stack is valid
@@ -655,8 +649,6 @@ class Pipeline:
         '''
         N_timesteps = self.calc_N_timesteps(sax_df)
 
-        print('Series = ',sax_df['seriesnumber'].values[0],'N_timesteps = ',N_timesteps)
-
         N_slices =  sax_df.slicelocation.nunique() 
 
         if N_slices>= min_slices and N_timesteps >= min_timesteps and len(sax_df) >= min_images and len(sax_df) % N_timesteps ==  0:
@@ -672,26 +664,18 @@ class Pipeline:
         '''
         sax_df = sax_df.drop_duplicates(subset = 'uid')
         N_timesteps = self.calc_N_timesteps(sax_df) # calculate the number of timesteps
-        print('seriesnumber = ', sax_df['seriesnumber'].values[0])
-        print('N = ', len(sax_df))
-
 
         # total number of images should be equal to the number of timesteps multiplied by number of slices
         if len(sax_df) != N_timesteps * sax_df.slicelocation.nunique(): 
             sax_df = self.same_timesteps(sax_df)
 
-        print('N1 = ', len(sax_df))
-        
 
         if len(sax_df) != N_timesteps * sax_df.slicelocation.nunique():
             sax_df = self.remove_repeated_scans(sax_df)
 
-        print('N2 = ', len(sax_df))
-
         N_slices =  sax_df.slicelocation.nunique() 
 
         N_timesteps = int(self.calc_N_timesteps(sax_df))
-        print(len(sax_df),N_timesteps, N_slices, 'images in sax df after cleaning')
 
         if self.is_sax_valid(sax_df):
             return sax_df.sort_values(['slicelocation','triggertime'])
@@ -737,21 +721,21 @@ class Pipeline:
         '''
         sax_df = sax_df.drop_duplicates(subset = ['slicelocation','triggertime']) # remove any repeated scans
 
-        N_timesteps = sax_df.N_timesteps.unique()[0]
-        if not np.isnan(N_timesteps):
-            return int(N_timesteps)
-        else:
-            unique_slices = sax_df.slicelocation.unique()
-            possible_N_timesteps = []
-            for uni_slice in unique_slices:
-                if len(sax_df.loc[sax_df['slicelocation'] == uni_slice]) > min_timesteps:
-                    possible_N_timesteps.append(len(sax_df.loc[sax_df['slicelocation'] == uni_slice]))
+        # N_timesteps = sax_df.N_timesteps.unique()[0]
+        # if not np.isnan(N_timesteps):
+        #     return int(N_timesteps)
+        # else:
+        unique_slices = sax_df.slicelocation.unique()
+        possible_N_timesteps = []
+        for uni_slice in unique_slices:
+            if len(sax_df.loc[sax_df['slicelocation'] == uni_slice]) > min_timesteps:
+                possible_N_timesteps.append(len(sax_df.loc[sax_df['slicelocation'] == uni_slice]))
 
-            if len(possible_N_timesteps) == 0:
-                N_timesteps = 0
-            else:
-                N_timesteps = np.min(possible_N_timesteps)
-            return int(N_timesteps)
+        if len(possible_N_timesteps) == 0:
+            N_timesteps = 0
+        else:
+            N_timesteps = np.min(possible_N_timesteps)
+        return int(N_timesteps)
 
     def remove_repeated_scans(self,sax_df):
         '''
@@ -785,7 +769,6 @@ class Pipeline:
                     creation_times = repeat_sax_df.creationtime.unique()
                     for creation_time in creation_times:
                         repeat_sax_df = repeat_sax_df.loc[repeat_sax_df['creationtime'] == creation_time]
-                        print(len(repeat_sax_df), N_timesteps, 'check')
                         if len(repeat_sax_df) == N_timesteps:
                             single_sax_df = repeat_sax_df
 
@@ -958,7 +941,7 @@ class Pipeline:
             return cropped_image,crop_box
             
 
-    def seg_image(self,image_4D, segger_num = segger_num):
+    def seg_image(self,image_4D):
         '''
         input the cropped image and segment the ventricles.
         '''
@@ -1005,6 +988,8 @@ class Pipeline:
         # find the diastolic and systolic frames using the centre five segmented slices as they are the most reliable
         slice_segs = np.sum(np.sum(np.sum(np.sum(mask_4D[...,-2:],-1),0),0),-1)
         with_segs = np.where(slice_segs >0)[0]
+        if len(with_segs) == 0:
+            raise ValueError('Segmentation Failed')
         mid_slice_idx = with_segs[round(len(with_segs)/2)]
         min_heart_idx = mid_slice_idx - 2
         max_heart_idx = mid_slice_idx + 3
