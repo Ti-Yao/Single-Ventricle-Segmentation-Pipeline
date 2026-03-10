@@ -1,7 +1,5 @@
-import glob
-import pandas as pd
 from pipeline import *
-import pickle
+
 def main():
     data_path = './data/debug'
     log_file = 'error_log.csv'
@@ -18,6 +16,7 @@ def main():
     for patient in patients[:]:
         print(patient)
         p = Pipeline(patient, data_path=data_path)
+        print(p.single_dicom.SeriesDescription)
 
 if __name__ == "__main__":
     main()

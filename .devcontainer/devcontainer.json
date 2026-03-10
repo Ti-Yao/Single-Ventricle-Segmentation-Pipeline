@@ -18,6 +18,7 @@
 	"mounts": [
 		"type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix",
 		"type=bind,source=/media/aviary-nas/tina/data/debug/SAX_Pipeline,target=/workspaces/Single-Ventricle-Segmentation-Pipeline/data/debug",
+		"type=bind,source=/media/aviary-nas/tina/pipelines/Single-Ventricle-Segmentation-Pipeline/models,target=/workspaces/Single-Ventricle-Segmentation-Pipeline/models",
 	],
 	// Enable plotting.
 	"containerEnv": {

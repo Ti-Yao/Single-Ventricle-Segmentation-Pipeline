@@ -27,7 +27,7 @@ from shapely.geometry import Polygon, box, Point, shape, MultiPolygon
 from rasterio import features, Affine
 from skimage.measure import label 
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = ""
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 min_timesteps = 10
 min_slices = 6
@@ -36,15 +36,14 @@ cropper_image_size = 256 # for cropper
 segger_image_size = 128
 sax_id_image_size = 128
 
-# segger_num = 212
+segger_num = 212
 blobber_num = 80
 sax_id_num = 67
-model_path = '/workspaces/Force-ML/models'
+model_path = './models'
 
 sax_id_path = f'{model_path}/SAX-{sax_id_num}.h5'
 blobber_path = f'{model_path}/BLOB-{blobber_num}.h5'
-# segger_path = f'{model_path}/SEG-{segger_num}.h5'
-segger_path = f'{model_path}/SEGGER-30.h5'
+segger_path = f'{model_path}/SEG-{segger_num}.h5'
 
 
 def resize_crop_box(crop_box, crop_factor):
