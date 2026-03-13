@@ -479,9 +479,7 @@ class Pipeline:
                 manufacturer = dcm.Manufacturer.lower()
                 
                 try:
-                    # main_axis = np.argmax(np.cross(dicom_info['orientation'].iloc[0][:3], dicom_info['orientation'].iloc[0][3:]))
-                    # dicom_info['slicelocation'] = dicom_info['position'].apply(lambda x: x[main_axis])
-                    dicom_info[dicom_path]['slicelocation'] = [round(val,3) for val in dcm.ImagePositionPatient][2]
+                    dicom_info[dicom_path]['slicelocation'] = dcm.SliceLocation
                 except:
                     dicom_info[dicom_path]['slicelocation'] = np.nan
             
